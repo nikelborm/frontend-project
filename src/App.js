@@ -11,10 +11,16 @@ import CataloguePage from "./pages/catologue-page/catalogue";
 import MainPage from "./pages/main-page/main-page";
 import BoughtItems from "./pages/selected-items-page/bought-items";
 import FavoriteItems from "./pages/selected-items-page/favorite-items";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient()
+
 
 function App() {
   const serchingItem = useSelector((state) => state.search.searched);
   return (
+    <QueryClientProvider client={queryClient}>
+
     <div className="app_wrapper">
       <Navbar />
       <div className="app_content">
@@ -36,6 +42,8 @@ function App() {
       </div>
       <Footer />
     </div>
+    </QueryClientProvider>
+
   );
 }
 
