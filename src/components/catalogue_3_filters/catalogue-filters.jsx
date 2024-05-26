@@ -1,4 +1,3 @@
-import "aos/dist/aos.css";
 import React from "react";
 import { items } from "../../redux/data";
 import Card from "../card/card";
@@ -14,7 +13,6 @@ function CatalogueFilters({ title }) {
   } else if (title === "Новинки") {
     data = items.filter((el) => el.category === "New");
   }
-  
 
   return (
     <div className="catal_filters">
