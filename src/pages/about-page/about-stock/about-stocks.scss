@@ -1,0 +1,98 @@
+$color_1: #717171;
+$color_2: #0e2149;
+$color_3: #111111;
+
+.stocks_wrapper {
+	margin-bottom: 70px;
+}
+.stocks_content {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 50px;
+}
+.stock_cart {
+	max-width: 560px;
+	height: 100%;
+	display: flex;
+	cursor: pointer;
+}
+.stock_img {
+	margin-right: 20px;
+	outline: none;
+	transition: all 0.4s ease;
+	&:hover {
+		transform: scale(1.02);
+		transition: all 0.4s ease;
+	}
+}
+.stock_descriptions {
+	span {
+		font-size: 18px;
+		line-height: 130%;
+		color: $color_1;
+	}
+	h4 {
+		font-weight: 700;
+		font-size: 20px;
+		color: $color_2;
+		margin: 7px 0;
+	}
+	p {
+		font-size: 15px;
+		line-height: 130%;
+		color: $color_3;
+	}
+}
+.show_more_stocks {
+	max-width: 150px;
+	margin: 25px auto 0;
+	cursor: pointer;
+	p {
+		font-size: 20px;
+		line-height: 130%;
+		color: $color_2;
+		text-decoration: underline;
+	}
+}
+@media only screen and (max-width: 1200px) {
+	.stocks_content {
+		grid-gap: 20px;
+	}
+	.stock_cart {
+		span {
+			font-size: 15px;
+		}
+		h4 {
+			margin: 4px 0;
+			font-size: 17px;
+		}
+		p {
+			font-size: 13px;
+		}
+	}
+	.about_wrapper {
+		padding-right: 10px;
+	}
+	.stock_img {
+		margin-right: 10px;
+	}
+}
+@media only screen and (max-width: 970px) {
+	.stock_cart {
+		flex-direction: column;
+	}
+}
+@media only screen and (max-width: 670px) {
+	.stocks_content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.stock_cart {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		margin-bottom: 20px;
+	}
+}
