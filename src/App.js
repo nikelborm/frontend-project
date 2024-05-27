@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import "./app.css";
+import "./App.css";
 import AboutItem from "./components/about_item/about-item";
 import Footer from "./components/footer/footer";
 import Navbar from "./components/nav-bar/nav-bar";
@@ -16,6 +16,8 @@ import ReactQueryProvider from "./providers/react-query";
 function App() {
   const serchingItem = useSelector((state) => state.search.searched);
   return (
+    <QueryClientProvider client={queryClient}>
+
     <div className="app_wrapper">
       <ReactQueryProvider>
         <Navbar />
@@ -39,6 +41,8 @@ function App() {
         <Footer />
       </ReactQueryProvider>  
     </div>
+    </QueryClientProvider>
+
   );
 }
 

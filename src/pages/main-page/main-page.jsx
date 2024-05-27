@@ -6,6 +6,7 @@ import Products from "../../components/products-cards/products";
 import { items } from "../../redux/data";
 import { mainFilter } from "../../redux/search-reducer";
 import "./main-page.scss";
+import { useQuery } from '@tanstack/react-query';
 
 function MainPage() {
   const filteredItems = useSelector((state) => state.search.mainFiltered);
@@ -26,6 +27,19 @@ function MainPage() {
     },
   ];
   const [active, setActive] = useState("");
+
+  // Queries
+  const query = useQuery({ queryKey: ['all_product'], queryFn: async () => {
+    const response = await fetch(`http://localhost:1234/api/product/all?param=${123}`, {body: JSON.stringify({
+      asdd: ''
+    })});
+    const response_parsed = await response.json();
+
+    return response_parsed;
+  } })
+
+  const { data, isLoading } = query;
+  console.log('пришедшие данные', data);
 
   const filterXit = (key) => {
     const data = items.filter((el) => el.category === key);
@@ -58,14 +72,15 @@ function MainPage() {
                 </div>
               ))}
             </div>
+            {isLoading
+              ? 'loading...'
+              : <div className="filtered_items_carousel">
+                {filteredItems.length >= 1
+                  ? <MainFilter items={filteredItems} />
+                  : <MainFilter items={items} />
+                }
+            </div>}
 
-            <div className="filtered_items_carousel">
-              {filteredItems.length >= 1 ? (
-                <MainFilter items={filteredItems} />
-              ) : (
-                <MainFilter items={items} />
-              )}
-            </div>
           </div>
         </div>
       </header>

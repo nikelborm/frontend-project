@@ -14,6 +14,7 @@ import {
 } from "../../redux/favorite-reducer";
 import ItemType from "../card/item_type";
 import "./modal.scss";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 function SampleNextArrow(props) {
   const { onClick } = props;
