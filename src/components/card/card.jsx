@@ -11,7 +11,7 @@ import { addToFavorite, deleteFromFavorite} from "../../redux/favorite-reducer";
 import Modal from "../modal/modal";
 import ItemType from "./item_type";
 
-function Card({ items }) {
+export default function Card(props) {
   const [modal, setModal] = useState(false);
   const [itemData, setItemData] = useState({});
 
@@ -56,7 +56,7 @@ function Card({ items }) {
 
   return (
     <>
-      {!modal || (
+      {modal && (
         <Modal
           modal={modal}
           setModal={setModal}
@@ -64,11 +64,13 @@ function Card({ items }) {
           itemData={itemData}
         />
       )}
-      {items.map((item) => (
+      {props.items?.map((item) => (
         <div className="item_card" key={item.id}>
           <div className="item_img_block">
             <ItemType category={item.category} />
-            <img src={item.image} alt={item.image} />
+            <img src={item.image} alt="Not found" />
+            {/* ../items_image/meat.jpg */}
+            {/* <img src={(item.image)} alt={item.image} /> */}
             <div className="add_to_fav" onClick={() => addDelFavor(item)}>
               <Favorite
                 className={
@@ -123,5 +125,3 @@ function Card({ items }) {
     </>
   );
 }
-
-export default Card;

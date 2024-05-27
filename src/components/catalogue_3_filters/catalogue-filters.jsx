@@ -1,4 +1,3 @@
-import "aos/dist/aos.css";
 import React from "react";
 import { items } from "../../redux/data";
 import Card from "../card/card";

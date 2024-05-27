@@ -140,7 +140,7 @@ function MainFilter({ items }) {
           <div className="item_card">
             <div className="item_img_block">
               <ItemType category={item.category} />
-              <img src={item.image} alt={item.image} />
+              <img src={(item.image)} alt={item.image} />
               <div className="add_to_fav" onClick={() => addDelFavor(item)}>
                 <Favorite
                   className={

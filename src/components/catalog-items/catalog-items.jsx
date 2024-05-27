@@ -97,11 +97,13 @@ function CatalogItems() {
         </select>
       </div>
       <div className="items_products">
-        {filteredItems.length >= 1 ? (
-          <Card items={filteredItems} />
-        ) : (
-          <Card items={data} />
-        )}
+        <Card
+          items={
+            filteredItems.length >= 1
+              ? filteredItems
+              : data
+          }
+        />
       </div>
 
       <div className={ !showMore || items.length < 6 ? "hide_show_more" : "show_more"}>

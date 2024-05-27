@@ -5,6 +5,7 @@ import { ReactComponent as Basket } from "../../assets/icons/basket.svg";
 import { ReactComponent as Favorite } from "../../assets/icons/favorite.svg";
 import { ReactComponent as Logo } from "../../assets/icons/main-logo.svg";
 import { ReactComponent as Search } from "../../assets/icons/search_icon.svg";
+import { ReactComponent as UserIcon } from "../../assets/icons/user.svg";
 import { searchingItem } from "../../redux/search-reducer";
 import "./nav-bar.scss";
 
@@ -99,6 +100,11 @@ function Navbar() {
                         <span>{summ} ₽</span>
                       </div>
                     </div>
+                  </div>
+                </NavLink>
+                <NavLink to = "/registr">
+                  <div className="user_profile">
+                    <UserIcon />
                   </div>
                 </NavLink>
               </div>
