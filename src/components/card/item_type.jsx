@@ -2,15 +2,24 @@ import classNames from "classnames";
 import React from "react";
 import "./card.scss"
 
+/**
+ *
+ * @param {{ category: { name: string, id: number } }} props
+ * @returns {JSX.Element}
+ */
 function ItemType({ category }) {
-  const item_category = classNames({
-    "item_category categ_green": category === "Хит",
-    "item_category categ_blue": category === "New",
-    "item_category categ_orange": category === "Скидка",
-  });
+  const className= {
+    '1': 'categ_green',
+    '2': 'categ_blue',
+    '3': 'categ_orange'
+  }[category.id] || 'whaaaatItShouldNotBePossible'
+
+  if (className === 'whaaaatItShouldNotBePossible')
+    throw new Error('wtf Whaaaat it should not be possible')
+
   return (
-    <div className={item_category}>
-      <p>{category}</p>
+    <div className={classNames([ 'item_category', className ])}>
+      <p data-category-id={category.id}>{category.name}</p>
     </div>
   );
 }

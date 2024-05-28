@@ -1,29 +1,29 @@
 import React from "react";
-import { items } from "../../redux/data";
-import Card from "../card/card";
+
+import { ManyProductCards } from "../card/card";
 import "./catalogue-filters.scss";
+import { useProductsQuery } from '../../hooks/hooks';
 
 function CatalogueFilters({ title }) {
+  const { data: products } = useProductsQuery();
 
-  var data;
-  if (title === "Хиты продаж") {
-    data = items.filter((el) => el.category === "Хит");
-  } else if (title === "Скидки") {
-    data = items.filter((el) => el.category === "Скидка");
-  } else if (title === "Новинки") {
-    data = items.filter((el) => el.category === "New");
-  }
+  console.log('CatalogueFilters ~ products:', products);
 
   return (
-    <div className="catal_filters">
+    <div className="catalog_filters">
       <div>
         <h3>{title}</h3>
       </div>
-      <div className="catal_filtering_items">
-        <Card items={data} />
+      <div className="catalog_filtering_items">
+        <ManyProductCards
+          products={products?.filter(el => el.category.menu_entry_name === title) || []}
+        />
       </div>
     </div>
   );
 }
+
+
+
 
 export default CatalogueFilters;

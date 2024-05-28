@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import AboutItem from "./components/about_item/about-item";
@@ -14,22 +13,21 @@ import FavoriteItems from "./pages/selected-items-page/favorite-items";
 import ReactQueryProvider from "./providers/react-query";
 
 function App() {
-  const serchingItem = useSelector((state) => state.search.searched);
+  // TODO: searchingItem
+  const searchingItem = null;
   return (
-    <QueryClientProvider client={queryClient}>
-
     <div className="app_wrapper">
       <ReactQueryProvider>
         <Navbar />
         <div className="app_content">
-          {serchingItem ? (
+          {searchingItem ? (
             <Search />
           ) : (
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/catalogue/*" element={<CataloguePage />} />
               <Route path="/about-resnota/*" element={<AboutPage />} />
-              <Route path="/about/:id" element={<AboutItem />} />
+              <Route path="/about/:productId" element={<AboutItem />} />
 
               <Route path="/favorite" element={<FavoriteItems />} />
               <Route path="/bought" element={<BoughtItems />} />
@@ -39,9 +37,8 @@ function App() {
           ) }
         </div>
         <Footer />
-      </ReactQueryProvider>  
+      </ReactQueryProvider>
     </div>
-    </QueryClientProvider>
 
   );
 }

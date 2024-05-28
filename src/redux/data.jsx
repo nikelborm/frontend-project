@@ -1,3 +1,9 @@
+export const categoryIdsToCategories = {
+  '1': { id: 1, name: "Хит" },
+  '2': { id: 2, name: "New" },
+  '3': { id: 3, name: "Скидка" },
+}
+
 export const items = [
   {
     id: 1,
@@ -6,7 +12,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Хит",
+    category: categoryIdsToCategories['1'],
     type: "Балык",
     galleryImage: [
       "../about_item/first.jpg",
@@ -29,7 +35,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "New",
+    category: categoryIdsToCategories['2'],
     type: "Говядина",
     galleryImage: [
       "../about_item/first.jpg",
@@ -53,7 +59,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Скидка",
+    category: categoryIdsToCategories['3'],
     type: "Корейка",
     galleryImage: [
       "../about_item/first.jpg",
@@ -77,7 +83,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Хит",
+    category: categoryIdsToCategories['1'],
     type: "Шея",
     galleryImage: [
       "../about_item/first.jpg",
@@ -100,7 +106,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "New",
+    category: categoryIdsToCategories['2'],
     type: "Суджук",
     galleryImage: [
       "../about_item/first.jpg",
@@ -124,7 +130,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Скидка",
+    category: categoryIdsToCategories['3'],
     type: "Пасторма",
     galleryImage: [
       "../about_item/first.jpg",
@@ -148,7 +154,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Хит",
+    category: categoryIdsToCategories['1'],
     type: "Мясные хлеба",
     galleryImage: [
       "../about_item/first.jpg",
@@ -171,7 +177,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "New",
+    category: categoryIdsToCategories['2'],
     type: "Корейка",
     galleryImage: [
       "../about_item/first.jpg",
@@ -195,7 +201,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Скидка",
+    category: categoryIdsToCategories['3'],
     type: "Карбонад",
     galleryImage: [
       "../about_item/first.jpg",
@@ -219,7 +225,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Хит",
+    category: categoryIdsToCategories['1'],
     type: "Грудинка",
     galleryImage: [
       "../about_item/first.jpg",
@@ -242,7 +248,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "New",
+    category: categoryIdsToCategories['2'],
     type: "Голяшка",
     galleryImage: [
       "../about_item/first.jpg",
@@ -266,7 +272,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Скидка",
+    category: categoryIdsToCategories['3'],
     type: "Вырезка",
     galleryImage: [
       "../about_item/first.jpg",
@@ -290,7 +296,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Хит",
+    category: categoryIdsToCategories['1'],
     type: "Говядина",
     galleryImage: [
       "../about_item/first.jpg",
@@ -313,7 +319,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "New",
+    category: categoryIdsToCategories['2'],
     type: "Бекон",
     galleryImage: [
       "../about_item/first.jpg",
@@ -337,7 +343,7 @@ export const items = [
     description:
       "Свинина, смесь посолочная (соль, нитрит натрия), коньяк, натуральные специи, сахар.",
     price: 500,
-    category: "Скидка",
+    category: categoryIdsToCategories['3'],
     type: "Балык",
     galleryImage: [
       "../about_item/first.jpg",
@@ -354,6 +360,7 @@ export const items = [
     calory: 228,
   },
 ];
+
 
 export const history_data = [
   {

@@ -1,26 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import Card from "../card/card";
+import { ManyProductCards } from "../card/card";
 import "./search.scss";
 
 function Search() {
-  const serchingItem = useSelector((state) => state.search.searched);
-  const searchings = useSelector((state) => state.search.searchings);
+  // TODO:
+  const searchingItem = null;
+  const searchings = null;
 
   const search = (searchings) => {
     return searchings
       .flat()
       .filter((searchings) =>
-        searchings.name.toLowerCase().includes(serchingItem.toLowerCase())
+        searchings.name.toLowerCase().includes(searchingItem.toLowerCase())
       );
   };
-  
+
 
   return (
     <div className="search_wrapper">
-      {<Card items={search(searchings)} /> || (
+      {<ManyProductCards products={search(searchings)} /> || (
         <div className="item_not_found">
-          <span>{serchingItem}</span> <p>not found(</p>
+          <span>{searchingItem}</span> <p>not found(</p>
         </div>
       )}
     </div>

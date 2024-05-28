@@ -27,7 +27,7 @@ const HeaderCarousel = () => {
           </div>
           <NavLink to="/catalogue">
             <div className="header_button">
-              <button>Купить</button>
+              <button>В корзину!</button>
             </div>
           </NavLink>
         </div>
@@ -45,7 +45,7 @@ const HeaderCarousel = () => {
           </div>
           <NavLink to="/catalogue">
             <div className="header_button">
-              <button>Купить</button>
+              <button>В корзину!</button>
             </div>
           </NavLink>
         </div>
@@ -63,7 +63,7 @@ const HeaderCarousel = () => {
           </div>
           <NavLink to="/catalogue">
             <div className="header_button">
-              <button>Купить</button>
+              <button>В корзину!</button>
             </div>
           </NavLink>
         </div>
@@ -81,7 +81,7 @@ const HeaderCarousel = () => {
           </div>
           <NavLink to="/catalogue">
             <div className="header_button">
-              <button>Купить</button>
+              <button>В корзину!</button>
             </div>
           </NavLink>
         </div>

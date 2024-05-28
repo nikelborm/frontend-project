@@ -336,7 +336,7 @@ function CataloguePage() {
             ""
           )}
         </div>
-        <div className="catalog_contet_block">
+        <div className="catalog_content_block">
           <div className="catalog_title">
             <h1>Каталог</h1>
           </div>

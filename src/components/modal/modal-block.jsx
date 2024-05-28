@@ -1,61 +1,41 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { ReactComponent as DeleteIcon } from "../../assets/icons/delete_icon.svg";
 import { ReactComponent as Favorite } from "../../assets/icons/favorite.svg";
 import { ReactComponent as LeftArrow } from "../../assets/icons/left_arrow.svg";
-import { ReactComponent as RigthArrow } from "../../assets/icons/right_arrow.svg";
-import { addToCart, deleteFromCart } from "../../redux/cart-reducer";
-import {
-  addToFavorite,
-  deleteFromFavorite,
-} from "../../redux/favorite-reducer";
+import { ReactComponent as RightArrow } from "../../assets/icons/right_arrow.svg";
 import ItemType from "../card/item_type";
 import "./modal.scss";
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useStoreWithSetOfProductIdsAddedToCart,
+  useStoreWithSetOfProductIdsAddedToFavorites,
+} from "../../services/state.ts";
 
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div className="rigth_arrow" onClick={onClick}>
-      <RigthArrow />
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div className="left_arrow" onClick={onClick}>
-      <LeftArrow />
-    </div>
-  );
-}
-
-function ModalBlock({ showHideModal, itemData }) {
-  const dispatch = useDispatch();
+function ModalBlock({ currentProductOpenedInModal, closeModal }) {
   const [count, setCount] = useState(1);
-  const favoriteEl = useSelector((state) => state.favorite.favorite);
-  const inCart = useSelector((state) => state.cart.cart);
-  const addDelFavor = (data) => {
-    const isItemInFav = favoriteEl.some((item) => item.id === data.id);
-    if (isItemInFav) {
-      dispatch(deleteFromFavorite(data.id));
-    } else {
-      dispatch(addToFavorite(data));
-    }
-  };
+  const { doOppositeStateOfProductIdInCart, isProductIdInCart } =
+    useStoreWithSetOfProductIdsAddedToCart();
+  const { doOppositeStateOfProductIdInFavorites, isProductIdInFavorites } =
+    useStoreWithSetOfProductIdsAddedToFavorites();
 
-  const addDelCart = (data) => {
-    const isItemInCart = inCart.some((item) => item.id === data.id);
-    if (isItemInCart) {
-      dispatch(deleteFromCart(data.id));
-    } else {
-      dispatch(addToCart(data));
-    }
-  };
+  const {
+    id,
+    galleryImage,
+
+    belki,
+    fat,
+    calory,
+    price,
+    type,
+
+    storage,
+    description,
+    composition,
+    category
+  } = currentProductOpenedInModal;
 
   const settings = {
     // customPaging: function(i) {
@@ -75,23 +55,29 @@ function ModalBlock({ showHideModal, itemData }) {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
+
   return (
     <div className="modal_block" data-aos="zoom-in" data-aos-duration="600">
-      <div className="close_modal" onClick={showHideModal}>
+      <div className="close_modal" onClick={() => closeModal()}>
         <DeleteIcon />
       </div>
 
       <div className="modal_carousel">
         <Slider {...settings}>
-          {itemData.galleryImage.map((img) => (
+          {[
+            "../about_item/first.jpg",
+            "../about_item/second.jpg",
+            "../about_item/third.jpg",
+          ].map((img) => (
             <div className="current_img" key={img}>
-              <ItemType category="Скидка" />
-              <div className="add_to_fav" onClick={() => addDelFavor(itemData)}>
+              <ItemType category={category} />
+              <div
+                className="add_to_fav"
+                onClick={() => doOppositeStateOfProductIdInFavorites(id)}
+              >
                 <Favorite
                   className={
-                    favoriteEl.some((data) => data.id === itemData.id)
-                      ? "selectedC"
-                      : "notSelect "
+                    isProductIdInFavorites(id) ? "selectedC" : "notSelect "
                   }
                   width="20px"
                   height="19px"
@@ -105,21 +91,21 @@ function ModalBlock({ showHideModal, itemData }) {
         </Slider>
       </div>
       <div className="modal_descriptions">
-        <div className="item_typee">
-          <h3>{itemData.item_name}</h3>
-          <h1>Миланская вяленая колбаса</h1>
+        <div className="item_type">
+          <h3>Миланская вяленая колбаса</h3>
+          <h1>{type}</h1>
         </div>
-        <div className="product_descr">
+        <div className="product_description">
           <span>Описание товара</span>
-          <p>{itemData.storage}</p>
+          <p>{description}</p>
         </div>
-        <div className="product_descr">
+        <div className="product_description">
           <span>Хранение</span>
-          <p>{itemData.storage}</p>
+          <p>{storage}</p>
         </div>
-        <div className="product_descr">
+        <div className="product_description">
           <span>Состав </span>
-          <p>{itemData.composition}</p>
+          <p>{composition}</p>
         </div>
 
         <div className="product_calory">
@@ -127,29 +113,29 @@ function ModalBlock({ showHideModal, itemData }) {
           <div className="belki">
             <p>Белок</p>
             <div className="underline_dots"></div>
-            <p>{itemData.belki}г</p>
+            <p>{belki}г</p>
           </div>
           <div className="fat">
             <p>Жиры</p>
             <div className="underline_dots"></div>
-            <p>{itemData.fat}г</p>
+            <p>{fat}г</p>
           </div>
           <div className="calory">
             <p>Калорийность</p>
             <div className="underline_dots"></div>
-            <p>{itemData.calory}ккал</p>
+            <p>{calory}ккал</p>
           </div>
         </div>
         <div className="modal_cost_block">
           <div className="modal_item_cost">
-            <p>{itemData.price} ₽ </p>
+            <p>{price} ₽ </p>
           </div>
           <div className="modal_item_discount">
             <strike>660 ₽</strike>
             <div className="discount_block">
               <div className="item_economy">
                 <div className="economy_percent">-15%</div>
-                <div className="economy_summ">
+                <div className="economy_sum">
                   <p>Экономия 160 ₽</p>
                 </div>
               </div>
@@ -168,12 +154,15 @@ function ModalBlock({ showHideModal, itemData }) {
               <p>+</p>
             </div>
           </div>
-          <div className="modal_buy" onClick={() => addDelCart(itemData)}>
+          <div
+            className="modal_buy"
+            onClick={() => doOppositeStateOfProductIdInCart(id)}
+          >
             <p>
               {" "}
-              {inCart.some((data) => data.id === itemData.id)
-                ? "Куплен"
-                : "Купить"}
+              {isProductIdInCart(id)
+                ? "В корзине 🚀"
+                : "В корзину!"}
             </p>
           </div>
           <div className="modal_click">
@@ -181,6 +170,24 @@ function ModalBlock({ showHideModal, itemData }) {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function SampleNextArrow(props) {
+  const { onClick } = props;
+  return (
+    <div className="right_arrow" onClick={onClick}>
+      <RightArrow />
+    </div>
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { onClick } = props;
+  return (
+    <div className="left_arrow" onClick={onClick}>
+      <LeftArrow />
     </div>
   );
 }

@@ -5,8 +5,8 @@ $color_4: #d5af86;
 $color_5: #717171;
 
 .item_card {
-	width: 285px;
-	height: 492px;
+	width: 80%;
+	height: 500px;
 	border: 1px solid #eff2f4;
 	padding: 0 20px 20px 20px;
 	transition: all 0.4s ease;
@@ -93,7 +93,7 @@ $color_5: #717171;
 		}
 	}
 }
-.item_descr {
+.item_description {
 	margin-bottom: 11px;
 	p {
 		font-size: 16px;
@@ -130,7 +130,7 @@ $color_5: #717171;
 	line-height: 130%;
 	color: $color_1;
 }
-.economy_summ {
+.economy_sum {
 	width: 122px;
 	height: 24px;
 	border: 1px solid #eff2f4;
@@ -148,8 +148,9 @@ $color_5: #717171;
 	align-items: center;
 	justify-content: space-between;
 	margin-top: 22px;
+	margin-bottom: 10px;
 	div {
-		width: 118px;
+		width: 160px;
 		height: 46px;
 		display: flex;
 		align-items: center;
@@ -163,6 +164,8 @@ $color_5: #717171;
 	}
 }
 .buy_btn {
+	padding: 0 20px;
+	width: 50%;
 	background: #0e2149;
 	transition: all 0.4s ease;
 	&:hover {

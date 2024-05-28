@@ -1,8 +1,6 @@
-import React, {  useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { items } from "../../redux/data";
-import { catalogueFilter } from "../../redux/search-reducer";
-import Card from "../card/card";
+import { ManyProductCards } from "../card/card";
 import "./catalog-items.scss";
 
 function CatalogItems() {
@@ -49,8 +47,8 @@ function CatalogItems() {
     },
   ];
 
-  const dispatch = useDispatch();
-  const filteredItems = useSelector((state) => state.search.catalogueFiltered);
+
+  const filteredItems = [];
 
   const [active, setActive] = useState("");
   const [dataCount, setdataCount] = useState(6);
@@ -58,7 +56,6 @@ function CatalogItems() {
 
   const filterItems = (key) => {
     const data = items.filter((el) => el.type === key);
-    dispatch(catalogueFilter(data));
     setActive(key);
     if (data.length < 6) {
       hideShowMore(false);
@@ -97,8 +94,8 @@ function CatalogItems() {
         </select>
       </div>
       <div className="items_products">
-        <Card
-          items={
+        <ManyProductCards
+          products={
             filteredItems.length >= 1
               ? filteredItems
               : data

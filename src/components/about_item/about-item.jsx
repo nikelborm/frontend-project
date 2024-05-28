@@ -1,20 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Navigate, NavLink } from "react-router-dom";
-import { items } from "../../redux/data";
-import Card from "../card/card";
+import { Navigate, NavLink, useParams } from "react-router-dom";
+import { ManyProductCards } from "../card/card";
 import ModalBlock from "../modal/modal-block";
 import "./about-item.scss";
+import { useProductsQuery, useSpecificProductQuery } from '../../hooks/hooks';
 
 const AboutItem = () => {
-  const recommendItems = items.slice(0, 4).reverse();
-  const filterdItems = items
-    .filter((el) => el.category === "Скидка")
+  const productId = parseInt(useParams().productId, 10);
+
+  const { data: products, isLoading: isProductsLoading } = useProductsQuery();
+  const { data: specificProduct, isLoading: isSpecificProductLoading } = useSpecificProductQuery(productId);
+
+  if (Number.isNaN(productId)) return <Navigate to={-1} />;
+
+  const recommendedProducts = products?.slice(0, 4).reverse();
+
+  const saleProducts = products
+    ?.filter((el) => el.category.name === "Скидка")
     .slice(0, 4)
     .reverse();
-  const currentItems = useSelector((state) => state.cart.currentItem).slice(-1);
-  const item = currentItems[0];
-  if (!item) return <Navigate to={-1} />;
 
   return (
     <div className="about_item_wrapper">
@@ -45,15 +49,20 @@ const AboutItem = () => {
             <span>•</span>
           </div>
           <div className="content_menu_elem">
-            <p>{item.item_name}</p>
+            {/* TODO */}
+            <p>{"Колбасы вяленые и сырокопченые" }</p>
           </div>
         </div>
         <div className="about_title">
-          <h1>{item.item_name}</h1>
+          {/* TODO */}
+          <h1>{"Колбасы вяленые и сырокопченые" }</h1>
         </div>
       </div>
       <div className="about_item_block">
-        <ModalBlock itemData={item} />
+        {specificProduct && <ModalBlock
+          currentProductOpenedInModal={specificProduct}
+          // closeModal={closeModal}
+        />}
       </div>
       <div className="checkout_services">
         <div className="checkout_links">
@@ -68,7 +77,7 @@ const AboutItem = () => {
           </div>
         </div>
       </div>
-      <div className="checkout_descr">
+      <div className="checkout_description">
         <div className="left_checkout">
           <h4>Самовывоз</h4>
           <p>
@@ -101,7 +110,7 @@ const AboutItem = () => {
           Рекомендуем
         </h2>
         <div className="items_block">
-          <Card items={recommendItems} />
+          <ManyProductCards products={recommendedProducts} />
         </div>
       </div>
 
@@ -110,7 +119,7 @@ const AboutItem = () => {
           Наши акции
         </h2>
         <div className="items_block">
-          <Card items={filterdItems} />
+          <ManyProductCards products={saleProducts} />
         </div>
       </div>
     </div>

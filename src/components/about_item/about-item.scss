@@ -38,7 +38,7 @@ $color_5: #11111167;
 		.close_modal {
 			display: none;
 		}
-		.product_descr {
+		.product_description {
 			margin-bottom: 15px;
 		}
 	}
@@ -61,7 +61,7 @@ $color_5: #11111167;
 		background: #fff;
 	}
 }
-.checkout_descr {
+.checkout_description {
 	display: flex;
 	margin-bottom: 40px;
 	.right_checkout {
@@ -159,7 +159,7 @@ $color_5: #11111167;
 		align-items: center;
 		justify-content: center;
 	}
-	.checkout_descr {
+	.checkout_description {
 		padding: 0 20px;
 	}
 	.left_checkout {
@@ -180,7 +180,7 @@ $color_5: #11111167;
 			padding-left: 20px;
 		}
 	}
-	.checkout_descr {
+	.checkout_description {
 		flex-direction: column;
 		padding-right: 20px;
 		.right_checkout {

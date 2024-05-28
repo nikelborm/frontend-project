@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { NavLink } from "react-router-dom";
 import { ReactComponent as Basket } from "../../assets/icons/basket.svg";
 import { ReactComponent as Favorite } from "../../assets/icons/favorite.svg";
 import { ReactComponent as Logo } from "../../assets/icons/main-logo.svg";
 import { ReactComponent as Search } from "../../assets/icons/search_icon.svg";
 import { ReactComponent as UserIcon } from "../../assets/icons/user.svg";
-import { searchingItem } from "../../redux/search-reducer";
 import "./nav-bar.scss";
 
 import { ReactComponent as Beer } from "../../assets/icons/menu_icons/beer.svg";
@@ -22,17 +21,22 @@ import { ReactComponent as Star } from "../../assets/icons/menu_icons/star.svg";
 import { ReactComponent as Vegetables } from "../../assets/icons/menu_icons/vegetables.svg";
 import { ReactComponent as MenuBurger } from "../../assets/icons/burger_nenu.svg";
 import { ReactComponent as MenuArrow } from "../../assets/icons/menu_arrow.svg";
+import { useProductsQuery } from '../../hooks/hooks';
+import { useStoreWithSetOfProductIdsAddedToFavorites, useStoreWithSetOfProductIdsAddedToCart } from '../../services/state.ts';
 
 function Navbar() {
   const [catalMenu, setCatMenu] = useState(false);
   const [navMenu, setNavMenu] = useState(false);
-  const dispatch = useDispatch();
-  const inFav = useSelector((state) => state.favorite.favorite);
-  const inCart = useSelector((state) => state.cart.cart);
-  const summ = inCart.reduce((acc, cart) => acc + cart.price, 0);
+
+  const products = useProductsQuery()?.data || [];
+  const { isProductIdInFavorites, removeProductIdFromFavorites } = useStoreWithSetOfProductIdsAddedToFavorites();
+  const { isProductIdInCart, doOppositeStateOfProductIdInCart } = useStoreWithSetOfProductIdsAddedToCart();
+  const boughtProducts = products.filter(product => isProductIdInCart(product.id));
+  const favoriteProducts = products.filter(product => isProductIdInFavorites(product.id));
+
+  const sumInCart = boughtProducts.reduce((cartPrice, cartProduct) => cartPrice + cartProduct.price, 0);
 
   const onSearch = (value) => {
-    dispatch(searchingItem(value));
   };
 
   const catMenuToggle = () => {
@@ -73,9 +77,9 @@ function Navbar() {
                 <NavLink to="/favorite">
                   <div className="favorite_icon">
                     <Favorite />
-                    {!inFav.length || (
+                    {!favoriteProducts.length || (
                       <div className="in_favorite">
-                        <p>{inFav.length}</p>
+                        <p>{favoriteProducts.length}</p>
                       </div>
                     )}
                   </div>
@@ -85,19 +89,19 @@ function Navbar() {
                     <div className="basket_icon">
                       <Basket />
                       <div className="in_cart_detector">
-                        {!inCart.length || (
+                        {!boughtProducts.length || (
                           <div className="in_cart_det">
-                            <p>{inCart.length}</p>
+                            <p>{boughtProducts.length}</p>
                           </div>
                         )}
                       </div>
                     </div>
                     <div className="in_basket_descr">
                       <div className="items_length">
-                        <p>Товаров: {inCart.length} </p>
+                        <p>Товаров: {boughtProducts.length} </p>
                       </div>
-                      <div className="items_summ">
-                        <span>{summ} ₽</span>
+                      <div className="items_sum">
+                        <span>{sumInCart} ₽</span>
                       </div>
                     </div>
                   </div>

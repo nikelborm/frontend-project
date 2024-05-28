@@ -1,51 +1,19 @@
 import { default as React, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import HeaderCarousel from "../../components/carousel/carousel";
-import MainFilter from "../../components/main-filter-carousel/main-filter";
+import { ManyProductCardsCarousel } from "../../components/main-filter-carousel/main-filter-carousel";
 import Products from "../../components/products-cards/products";
-import { items } from "../../redux/data";
-import { mainFilter } from "../../redux/search-reducer";
 import "./main-page.scss";
-import { useQuery } from '@tanstack/react-query';
+import { useCategoriesQuery, useProductsQuery } from '../../hooks/hooks';
+import { ManyProductCards } from '../../components/card/card';
 
 function MainPage() {
-  const filteredItems = useSelector((state) => state.search.mainFiltered);
-  const dispatch = useDispatch();
+  const [currentMenuEntryName, setCurrentMenuEntryName] = useState("ВСЕ");
 
-  const categories = [
-    {
-      key: "Хиты",
-      description: "Хит",
-    },
-    {
-      key: "Скидки",
-      description: "Скидка",
-    },
-    {
-      key: "Новинки",
-      description: "New",
-    },
-  ];
-  const [active, setActive] = useState("");
+  const { data: products, isLoading: isProductsLoading } = useProductsQuery();
+  const { data: categories, isLoading: isCategoriesLoading } = useCategoriesQuery();
 
-  // Queries
-  const query = useQuery({ queryKey: ['all_product'], queryFn: async () => {
-    const response = await fetch(`http://localhost:1234/api/product/all?param=${123}`, {body: JSON.stringify({
-      asdd: ''
-    })});
-    const response_parsed = await response.json();
-
-    return response_parsed;
-  } })
-
-  const { data, isLoading } = query;
-  console.log('пришедшие данные', data);
-
-  const filterXit = (key) => {
-    const data = items.filter((el) => el.category === key);
-    dispatch(mainFilter(data));
-    setActive(key);
-  };
+  const filteredProducts = (products || [])
+    .filter((product) => product.category.menu_entry_name === currentMenuEntryName);
 
   return (
     <div className="main_page_wrapper">
@@ -58,34 +26,64 @@ function MainPage() {
 
           <div className="main_filter_items">
             <div className="main_filters">
-              {categories.map((category) => (
-                <div
-                  className={
-                    active === category.description
-                      ? "main_filter active_filter"
-                      : "main_filter"
-                  }
-                  onClick={() => filterXit(category.description)}
-                  key={category.key}
-                >
-                  <p> {category.key}</p>
-                </div>
-              ))}
+              <CategoryMenuItem
+                isActive={currentMenuEntryName === 'ВСЕ'}
+                name='ВСЕ'
+                setCurrentMenuEntryName={setCurrentMenuEntryName}
+              />
+              {isCategoriesLoading
+                ? 'loading other entries...'
+                : categories?.map((category) => (
+                  <CategoryMenuItem
+                    key={category.id}
+                    isActive={category.menu_entry_name === currentMenuEntryName}
+                    name={category.menu_entry_name}
+                    setCurrentMenuEntryName={setCurrentMenuEntryName}
+                  />
+                ))
+              }
             </div>
-            {isLoading
-              ? 'loading...'
+            {isProductsLoading
+              ? 'Products is loading...'
               : <div className="filtered_items_carousel">
-                {filteredItems.length >= 1
-                  ? <MainFilter items={filteredItems} />
-                  : <MainFilter items={items} />
-                }
-            </div>}
-
+                <ManyProductCards
+                  Wrapper={ManyProductCardsCarousel}
+                  products={
+                    currentMenuEntryName === 'ВСЕ'
+                      ? products
+                      : filteredProducts
+                  }
+                />
+              </div>
+            }
           </div>
         </div>
       </header>
     </div>
   );
 }
+
+/**
+ *
+ * @param {{
+ *   isActive: boolean,
+ *   setCurrentMenuEntryName: (name: string) => void
+ *   name: string
+ * }} props
+ * @returns
+ */
+const CategoryMenuItem = (props) => {
+  return <div
+    className={
+      props.isActive
+      // category.menu_entry_name === currentMenuEntryName
+        ? "main_filter active_filter"
+        : "main_filter"
+    }
+    onClick={() => props.setCurrentMenuEntryName(props.name)}
+  >
+    <p> {props.name}</p>
+  </div>
+};
 
 export default MainPage;
