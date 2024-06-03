@@ -1,24 +1,33 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
+type StringLiteral<T> = T extends string ? string extends T ? never : T : never;
+
 function useStoreWithSetOfProductIdsAddedTo<
   const TStoreIntention extends string,
->(storeIntention: TStoreIntention) {
-  const privateSymbol = `__productIdsIn${storeIntention}`
+>(storeIntention: StringLiteral<TStoreIntention>) {
+  const privateSymbol = `__productIdsIn${storeIntention}` as const;
+
+  const isProductInSetMethodKey = `isProductIdIn${storeIntention}` as const;
+
+  const addProductToSetMethodKey = `addProductIdTo${storeIntention}` as const;
+  const removeProductFromSetMethodKey = `removeProductIdFrom${storeIntention}` as const;
+  const doOppositeStateOfProductIdInSetMethodKey = `doOppositeStateOfProductIdIn${storeIntention}` as const;
+
   type TOnlyDataStore = {
     [k in typeof privateSymbol]: Set<number>
   };
 
-  type TOnlyGetMethods = Record<
-    `isProductIdIn${TStoreIntention}`
-    , (productId: number) => boolean
-  >;
-  type TOnlySetMethods = Record<
-    | `addProductIdTo${TStoreIntention}`
-    | `removeProductIdFrom${TStoreIntention}`
-    | `doOppositeStateOfProductIdIn${TStoreIntention}`
-    , (productId: number) => void
-  >;
+  type TOnlyGetMethods = {
+    [k in typeof isProductInSetMethodKey]: (productId: number) => boolean
+  };
+  type TOnlySetMethods = {
+    [k in
+      | typeof addProductToSetMethodKey
+      | typeof removeProductFromSetMethodKey
+      | typeof doOppositeStateOfProductIdInSetMethodKey
+    ]: (productId: number) => void
+  };
   type TCombinedStore = TOnlyDataStore & TOnlyGetMethods & TOnlySetMethods;
 
 
@@ -26,19 +35,19 @@ function useStoreWithSetOfProductIdsAddedTo<
     (set, get) => ({
       [privateSymbol]: new Set<number>([]),
 
-      [`isProductIdIn${storeIntention}`]: (productId) => {
+      [isProductInSetMethodKey]: (productId) => {
         return (get() as TOnlyDataStore)[privateSymbol].has(productId);
       },
 
-      [`addProductIdTo${storeIntention}`]: (productId) => {
+      [addProductToSetMethodKey]: (productId) => {
         (get() as TOnlyDataStore)[privateSymbol].add(productId);
         set({ ...get() });
       },
-      [`removeProductIdFrom${storeIntention}`]: (productId) => {
+      [removeProductFromSetMethodKey]: (productId) => {
         (get() as TOnlyDataStore)[privateSymbol].delete(productId);
         set({ ...get() });
       },
-      [`doOppositeStateOfProductIdIn${storeIntention}`]: (productId) => {
+      [doOppositeStateOfProductIdInSetMethodKey]: (productId) => {
         const targetSet = (get() as TOnlyDataStore)[privateSymbol];
 
         if(targetSet.has(productId))
@@ -48,7 +57,7 @@ function useStoreWithSetOfProductIdsAddedTo<
 
         set({ ...get() });
       },
-    } as TCombinedStore),
+    }) as TCombinedStore,
     {
       name: `productIdsIn${storeIntention}Storage`, // unique name
       storage: createJSONStorage(() => localStorage, {
